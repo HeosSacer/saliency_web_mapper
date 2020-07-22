@@ -5,6 +5,7 @@ from typing import List, Dict, Tuple, Sequence
 class SaliencyWebMapperEnvironment(TypesafeDataclass):
     # Defaults with type
     url: str = 'http://localhost:3001/'
+    window_name: str = 'Cart 4.0'
 
     # Debug
     debug: bool = False

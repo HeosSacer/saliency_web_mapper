@@ -1,4 +1,4 @@
-from saliency_web_mapper.__main__ import as app
+from saliency_web_mapper.__main__ import app
 from saliency_web_mapper.config.env_loader import env_loader
 
 

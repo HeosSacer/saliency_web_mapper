@@ -55,7 +55,7 @@ while matching_probability < 0.85:
     __, matching_probability = find_template(templates.product_search, window_name="Cart 4.0")
     print(f"Probs {matching_probability}")
 
-xy = auto.click_on_template(templates.product_search, matching_threashold=0.85, window_name="Cart 4.0")
+xy = auto.click_on_template(templates.product_search, matching_threshold=0.85, window_name="Cart 4.0")
 print(f"Coords {xy}")
 print(f"xy {utils.get_mouse_pos()}")
 sleep(2)  # Wait 2 seconds to get the gui to do its stuff

@@ -7,7 +7,7 @@ import numpy as np
 import cv2
 
 
-def retrieve_image(window_name=None):
+def retrieve_image(window_name: str = None) -> (np.ndarray, Image):
     """
     brings specified window to foreground and returns an image of the
     whole screen.
@@ -37,24 +37,25 @@ def retrieve_image(window_name=None):
         win32gui.ShowWindow(hwnd,win32con.SW_MAXIMIZE)
         win32gui.SetForegroundWindow(hwnd)
         bbox = win32gui.GetWindowRect(hwnd)
-    img = getScreenAsImage()
+    raw_img: Image = getScreenAsImage()
 
     end = timer()
 
     # cut out active display only
     if bbox:
-        img = np.array(img.convert('RGB'))
+        img = np.array(raw_img.convert('RGB'))
         img = img.astype(np.uint8)
         img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         img[:bbox[1], :] = 0
         img[bbox[3]:, :] = 0
         img[:, :bbox[0]] = 0
         img[:, bbox[2]:] = 0
+        raw_img = raw_img.crop(bbox)
     else:
-        img = np.array(img.convert('RGB'))
+        img = np.array(raw_img.convert('RGB'))
         img = img.astype(np.uint8)
         img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    return img
+    return img, raw_img
 
 
 def load_template(template_file_name):
@@ -72,13 +73,13 @@ def load_template(template_file_name):
         raise AttributeError("lists of templates are work in progress")
 
 
-def find_template(template, im=None, window_name=None):
+def find_template(template, im=None, window_name: str=None):
     """
     finds template on screen or specified window_name and returns xy-coordinates
     """
     # if no image was specified, retreive an image
     im_loaded = False
-    im = retrieve_image(window_name)
+    im, _ = retrieve_image(window_name)
     # find template
     res = cv2.matchTemplate(im, template, cv2.TM_CCOEFF_NORMED)
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
