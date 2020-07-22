@@ -5,3 +5,4 @@ pywin32 >= 220
 opencv-python >= 3.4.0.12
 keyboard >= 0.13.5
 scipy
+pydevd-pycharm~=193.6015.10
