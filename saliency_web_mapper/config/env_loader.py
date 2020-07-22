@@ -3,7 +3,7 @@ from saliency_web_mapper.config.environment import SaliencyWebMapperEnvironment
 import logging
 
 
-def env_loader() -> SaliencyWebMapperEnvironment:
+def env_loader(disable_warnings: bool = False) -> SaliencyWebMapperEnvironment:
     """
     loads environment variables into a class:
     E.g: USER -> class.user
@@ -21,9 +21,10 @@ def env_loader() -> SaliencyWebMapperEnvironment:
             else:
                 # Watch out that str can be converted to target type
                 args.__setattr__(key, data_type(env[key.upper()]))
-    for key in dir(args):
-        if not key.upper() in env.keys() and not key.startswith('_'):
-            logging.warning(f"environment variable {key} not set, using default setting value {args.__getattribute__(key)} for {key}.")
+    if not disable_warnings:
+        for key in dir(args):
+            if not key.upper() in env.keys() and not key.startswith('_'):
+                logging.warning(f"environment variable {key} not set, using default setting value {args.__getattribute__(key)} for {key}.")
     return args
 
 
