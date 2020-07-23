@@ -1,13 +1,14 @@
 from saliency_web_mapper.__main__ import app
 from saliency_web_mapper.config.env_loader import env_loader
-
+from saliency_web_mapper.config.environment import SaliencyWebMapperEnvironment
 
 if __name__ == "__main__":
-    args = env_loader()
+    args: SaliencyWebMapperEnvironment = env_loader()
 
     if args.debug:
         import pydevd_pycharm
         from time import sleep
+
         # Wait for debug server
         while True:
             try:
